@@ -1,5 +1,7 @@
 import express from 'express';
 
+import '@shared/infra/typeorm';
+
 const app = express();
 
 const port = process.env.PORT || 3333;
