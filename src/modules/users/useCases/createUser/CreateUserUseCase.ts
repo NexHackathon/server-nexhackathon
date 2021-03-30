@@ -1,10 +1,11 @@
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IHashProvider } from '@modules/users/providers/HashProvider/models/IHashProvider';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 
+@injectable()
 export class CreateUserUseCase {
   constructor(
     @inject('UsersRepository')
