@@ -22,4 +22,10 @@ export class TeamsRepository implements ITeamsRepository {
 
     return team;
   }
+
+  async list(): Promise<Team[]> {
+    const teams = await this.repository.find();
+
+    return teams;
+  }
 }
