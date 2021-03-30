@@ -1,11 +1,13 @@
 import {
   Column,
   CreateDateColumn,
+  Entity,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
 
+@Entity('users')
 export class User {
   @PrimaryColumn()
   id: string;
