@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
 
 import authConfig from '@config/auth';
+import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import AppError from '@shared/errors/AppError';
 
 interface ITokenPayload {
@@ -10,11 +11,11 @@ interface ITokenPayload {
   sub: string;
 }
 
-export function ensureAuthenticated(
+export async function ensureAuthenticated(
   request: Request,
   response: Response,
   next: NextFunction,
-): void {
+): Promise<void> {
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
@@ -27,6 +28,14 @@ export function ensureAuthenticated(
     const decoded = verify(token, authConfig.jwt.secret);
 
     const { sub } = decoded as ITokenPayload;
+
+    const usersRepository = new UsersRepository();
+
+    const user = await usersRepository.findById(sub);
+
+    if (!user) {
+      throw new AppError('User does not exists!', 401);
+    }
 
     request.user = {
       id: sub,
