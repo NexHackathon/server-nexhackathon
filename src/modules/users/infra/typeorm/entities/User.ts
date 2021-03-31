@@ -2,10 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
+
+import { Team } from '@modules/teams/infra/typeorm/entities/Team';
 
 @Entity('users')
 export class User {
@@ -51,7 +55,8 @@ export class User {
   @Column()
   instagram: string;
 
-  @Column()
+  @ManyToOne(() => Team, team => team.users)
+  @JoinColumn({ name: 'team_id' })
   team_id: string;
 
   @CreateDateColumn()
