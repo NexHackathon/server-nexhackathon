@@ -3,4 +3,5 @@ import { Team } from '../infra/typeorm/entities/Team';
 
 export interface ITeamsRepository {
   create(data: ICreateTeamDTO): Promise<Team>;
+  list(): Promise<Team[]>;
 }
