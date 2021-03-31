@@ -24,7 +24,7 @@ export class TeamsRepository implements ITeamsRepository {
   }
 
   async list(): Promise<Team[]> {
-    const teams = await this.repository.find();
+    const teams = await this.repository.find({ relations: ['users'] });
 
     return teams;
   }
