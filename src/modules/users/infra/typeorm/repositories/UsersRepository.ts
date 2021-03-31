@@ -37,4 +37,10 @@ export class UsersRepository implements IUsersRepository {
 
     return user;
   }
+
+  async getUsersCount(): Promise<number> {
+    const [, usersCount] = await this.repository.findAndCount();
+
+    return usersCount;
+  }
 }
