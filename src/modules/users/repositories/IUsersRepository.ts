@@ -6,4 +6,5 @@ export interface IUsersRepository {
   findByEmail(email: string): Promise<User | undefined>;
   findById(id: string): Promise<User | undefined>;
   getUsersCount(): Promise<number>;
+  save(user: User): Promise<User>;
 }

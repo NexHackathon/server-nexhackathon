@@ -49,4 +49,8 @@ export class UsersRepository implements IUsersRepository {
 
     return usersCount;
   }
+
+  async save(user: User): Promise<User> {
+    return this.repository.save(user);
+  }
 }
