@@ -51,7 +51,7 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async rankUsersByPoints(): Promise<User[]> {
-    const users = await this.repository.find({ order: { points: 'ASC' } });
+    const users = await this.repository.find({ order: { points: 'DESC' } });
 
     return users;
   }
