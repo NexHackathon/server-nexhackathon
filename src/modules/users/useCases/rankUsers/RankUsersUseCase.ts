@@ -1,14 +1,24 @@
 import { inject, injectable } from 'tsyringe';
 
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
+import { comparePoints } from '@shared/utils/ComparePoints';
 
-interface IResponse {
+interface IRequest {
+  user_id: string;
+}
+
+interface IUser {
   id: string;
   name: string;
   position: number;
   level: string;
   points: number;
   profile_image: string;
+}
+
+interface IResponse {
+  user: IUser;
+  ranking: IUser[];
 }
 
 @injectable()
@@ -18,19 +28,26 @@ export class RankUsersUseCase {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute(): Promise<IResponse[]> {
+  async execute({ user_id }: IRequest): Promise<IResponse> {
     const users = await this.usersRepository.rankUsersByPoints();
 
-    const usersResponse: IResponse[] = users.map((users, index) => {
-      let level: string;
+    const { name, points, profile_image } = users.find(
+      user => user.id === user_id,
+    );
 
-      if (users.points <= 1000) {
-        level = 'Calouro';
-      } else if (users.points <= 3000) {
-        level = 'Veterano';
-      } else {
-        level = 'Mestre';
-      }
+    const position = users.findIndex(user => user.id === user_id);
+
+    const authenticatedUser = {
+      name,
+      position: position + 1,
+      points,
+      profile_image,
+    };
+
+    console.log(authenticatedUser);
+
+    const usersArray = users.map((users, index) => {
+      const level = comparePoints(users.points);
 
       return {
         id: users.id,
@@ -41,6 +58,11 @@ export class RankUsersUseCase {
         profile_image: users.profile_image,
       };
     });
+
+    const usersResponse = {
+      user: authenticatedUser,
+      ranking: usersArray,
+    } as IResponse;
 
     return usersResponse;
   }
