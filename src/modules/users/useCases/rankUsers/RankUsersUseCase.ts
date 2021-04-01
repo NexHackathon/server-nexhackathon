@@ -37,16 +37,14 @@ export class RankUsersUseCase {
 
     const position = users.findIndex(user => user.id === user_id);
 
-    const authenticatedUser = {
+    const user = {
       name,
       position: position + 1,
       points,
       profile_image,
     };
 
-    console.log(authenticatedUser);
-
-    const usersArray = users.map((users, index) => {
+    const ranking = users.map((users, index) => {
       const level = comparePoints(users.points);
 
       return {
@@ -60,8 +58,8 @@ export class RankUsersUseCase {
     });
 
     const usersResponse = {
-      user: authenticatedUser,
-      ranking: usersArray,
+      user,
+      ranking,
     } as IResponse;
 
     return usersResponse;
