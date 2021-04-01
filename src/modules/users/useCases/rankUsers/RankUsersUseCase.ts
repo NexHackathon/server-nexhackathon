@@ -1,7 +1,15 @@
 import { inject, injectable } from 'tsyringe';
 
-import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
+
+interface IResponse {
+  id: string;
+  name: string;
+  position: number;
+  level: string;
+  points: number;
+  profile_image: string;
+}
 
 @injectable()
 export class RankUsersUseCase {
@@ -10,9 +18,30 @@ export class RankUsersUseCase {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute(): Promise<User[]> {
+  async execute(): Promise<IResponse[]> {
     const users = await this.usersRepository.rankUsersByPoints();
 
-    return users;
+    const usersResponse: IResponse[] = users.map((users, index) => {
+      let level: string;
+
+      if (users.points <= 1000) {
+        level = 'Calouro';
+      } else if (users.points <= 3000) {
+        level = 'Veterano';
+      } else {
+        level = 'Mestre';
+      }
+
+      return {
+        id: users.id,
+        name: users.name,
+        level,
+        position: index + 1,
+        points: Number(users.points),
+        profile_image: users.profile_image,
+      };
+    });
+
+    return usersResponse;
   }
 }
