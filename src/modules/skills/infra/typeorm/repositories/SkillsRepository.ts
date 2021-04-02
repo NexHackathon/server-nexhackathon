@@ -29,4 +29,10 @@ export class SkillsRepository implements ISkillsRepository {
 
     return skill;
   }
+
+  async list(): Promise<Skill[]> {
+    const skills = await this.repository.find();
+
+    return skills;
+  }
 }
