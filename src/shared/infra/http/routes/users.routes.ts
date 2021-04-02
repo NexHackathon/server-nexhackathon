@@ -23,11 +23,7 @@ const upload = multer(uploadConfig.multer);
 
 usersRoutes.post('/', createUserController.handle);
 
-usersRoutes.get(
-  '/connections',
-  ensureAuthenticated,
-  registeredUsersController.handle,
-);
+usersRoutes.get('/connections', registeredUsersController.handle);
 
 usersRoutes.patch(
   '/avatar',
