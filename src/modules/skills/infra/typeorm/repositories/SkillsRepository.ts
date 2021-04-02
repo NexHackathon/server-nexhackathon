@@ -23,4 +23,10 @@ export class SkillsRepository implements ISkillsRepository {
 
     return skill;
   }
+
+  async findByName(name: string): Promise<Skill | undefined> {
+    const skill = await this.repository.findOne({ where: { name } });
+
+    return skill;
+  }
 }
