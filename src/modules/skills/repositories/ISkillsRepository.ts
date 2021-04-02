@@ -8,4 +8,5 @@ export interface ISkillsRepository {
   create(data: ICreateSkillDTO): Promise<Skill>;
   findByName(name: string): Promise<Skill | undefined>;
   list(): Promise<Skill[]>;
+  findByIds(ids: string[]): Promise<Skill[]>;
 }
