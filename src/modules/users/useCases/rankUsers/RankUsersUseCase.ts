@@ -28,21 +28,10 @@ export class RankUsersUseCase {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute({ user_id }: IRequest): Promise<IResponse> {
+  async execute({ user_id }: IRequest): Promise<IResponse | IUser[]> {
+    const userAdmin = await this.usersRepository.findById(user_id);
+
     const users = await this.usersRepository.rankUsersByPoints();
-
-    const { name, points, profile_image } = users.find(
-      user => user.id === user_id,
-    );
-
-    const position = users.findIndex(user => user.id === user_id);
-
-    const user = {
-      name,
-      position: position + 1,
-      points,
-      profile_image,
-    };
 
     const ranking = users.map((users, index) => {
       const level = comparePoints(users.points);
@@ -56,6 +45,23 @@ export class RankUsersUseCase {
         profile_image: users.profile_image,
       };
     });
+
+    if (userAdmin.isAdmin) {
+      return ranking;
+    }
+
+    const { name, points, profile_image } = users.find(
+      user => user.id === user_id,
+    );
+
+    const position = users.findIndex(user => user.id === user_id);
+
+    const user = {
+      name,
+      position: position + 1,
+      points,
+      profile_image,
+    };
 
     const usersResponse = {
       user,
