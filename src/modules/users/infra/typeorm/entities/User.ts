@@ -3,12 +3,15 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
 
+import { Skill } from '@modules/skills/infra/typeorm/entities/Skill';
 import { Team } from '@modules/teams/infra/typeorm/entities/Team';
 
 @Entity('users')
@@ -58,6 +61,14 @@ export class User {
   @ManyToOne(() => Team, team => team.users)
   @JoinColumn({ name: 'team_id' })
   team_id: string;
+
+  @ManyToMany(() => Skill)
+  @JoinTable({
+    name: 'skills_users',
+    joinColumns: [{ name: 'user_id' }],
+    inverseJoinColumns: [{ name: 'skill_id' }],
+  })
+  skills: Skill[];
 
   @CreateDateColumn()
   created_at: Date;
