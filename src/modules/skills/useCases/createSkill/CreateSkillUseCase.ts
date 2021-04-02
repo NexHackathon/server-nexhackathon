@@ -8,7 +8,7 @@ import {
 import AppError from '@shared/errors/AppError';
 
 @injectable()
-export class CreateSkillsUseCase {
+export class CreateSkillUseCase {
   constructor(
     @inject('SkillsRepository')
     private skillsRepository: ISkillsRepository,
