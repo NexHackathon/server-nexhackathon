@@ -8,7 +8,6 @@ import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 export const teamsRoutes = Router();
 
 const createTeamController = new CreateTeamController();
-
 const listTeamsController = new ListTeamsController();
 
 teamsRoutes.post('/', createTeamController.handle);

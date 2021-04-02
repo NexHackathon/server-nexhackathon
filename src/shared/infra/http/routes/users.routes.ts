@@ -12,11 +12,8 @@ import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 export const usersRoutes = Router();
 
 const createUserController = new CreateUserController();
-
 const registeredUsersController = new RegisteredUsersController();
-
 const updateUserProfileImageController = new UpdateUserProfileImageController();
-
 const rankUsersController = new RankUsersController();
 
 const upload = multer(uploadConfig.multer);
