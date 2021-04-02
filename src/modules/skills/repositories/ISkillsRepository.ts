@@ -6,4 +6,5 @@ export interface ICreateSkillDTO {
 
 export interface ISkillsRepository {
   create(data: ICreateSkillDTO): Promise<Skill>;
+  findByName(name: string): Promise<Skill | undefined>;
 }
