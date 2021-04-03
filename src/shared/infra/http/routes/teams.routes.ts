@@ -10,6 +10,6 @@ export const teamsRoutes = Router();
 const createTeamController = new CreateTeamController();
 const listTeamsController = new ListTeamsController();
 
-teamsRoutes.post('/', createTeamController.handle);
+teamsRoutes.post('/', ensureAuthenticated, createTeamController.handle);
 
 teamsRoutes.get('/', ensureAuthenticated, listTeamsController.handle);

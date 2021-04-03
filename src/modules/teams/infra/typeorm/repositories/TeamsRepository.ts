@@ -1,7 +1,8 @@
-import { getRepository, Repository } from 'typeorm';
+import { getManager, getRepository, Repository } from 'typeorm';
 
 import { ICreateTeamDTO } from '@modules/teams/dtos/ICreateTeamDTO';
 import { ITeamsRepository } from '@modules/teams/repositories/ITeamsRepository';
+import { User } from '@modules/users/infra/typeorm/entities/User';
 
 import { Team } from '../entities/Team';
 
@@ -12,13 +13,11 @@ export class TeamsRepository implements ITeamsRepository {
     this.repository = getRepository(Team);
   }
 
-  async create({ name, description }: ICreateTeamDTO): Promise<Team> {
+  create({ name, description }: ICreateTeamDTO): Team {
     const team = this.repository.create({
       name,
       description,
     });
-
-    await this.repository.save(team);
 
     return team;
   }
@@ -27,5 +26,12 @@ export class TeamsRepository implements ITeamsRepository {
     const teams = await this.repository.find({ relations: ['users'] });
 
     return teams;
+  }
+
+  async saveTrx(team: Team, user: User): Promise<void> {
+    await getManager().transaction(async entityManager => {
+      await entityManager.save(team);
+      await entityManager.save(user);
+    });
   }
 }

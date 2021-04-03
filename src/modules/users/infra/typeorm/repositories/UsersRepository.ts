@@ -39,7 +39,10 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async findById(id: string): Promise<User | undefined> {
-    const user = await this.repository.findOne({ where: { id } });
+    const user = await this.repository.findOne({
+      where: { id },
+      relations: ['team_id'],
+    });
 
     return user;
   }
