@@ -22,6 +22,15 @@ export class TeamsRepository implements ITeamsRepository {
     return team;
   }
 
+  async findById(id: string): Promise<Team> {
+    const team = await this.repository.findOne({
+      where: { id },
+      relations: ['users'],
+    });
+
+    return team;
+  }
+
   async list(): Promise<Team[]> {
     const teams = await this.repository.find({ relations: ['users'] });
 
