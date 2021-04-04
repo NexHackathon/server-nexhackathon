@@ -20,7 +20,7 @@ export class RemoveTeamUseCase {
   async execute({ user_id }: IRequest): Promise<void> {
     const user = await this.usersRepository.findById(user_id);
 
-    if (!user.team_id.id) {
+    if (!user.team_id) {
       throw new AppError('You are not on a team!');
     }
 
