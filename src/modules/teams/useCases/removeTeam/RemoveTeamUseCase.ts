@@ -1,13 +1,15 @@
 import { inject, injectable } from 'tsyringe';
 
-import { ICreateTeamDTO } from '@modules/teams/dtos/ICreateTeamDTO';
-import { Team } from '@modules/teams/infra/typeorm/entities/Team';
 import { ITeamsRepository } from '@modules/teams/repositories/ITeamsRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 
+interface IRequest {
+  user_id: string;
+}
+
 @injectable()
-export class CreateTeamUseCase {
+export class RemoveTeamUseCase {
   constructor(
     @inject('TeamsRepository')
     private teamsRepository: ITeamsRepository,
@@ -15,22 +17,13 @@ export class CreateTeamUseCase {
     private usersRepository: IUsersRepository,
   ) {}
 
-  async execute({ name, description, user_id }: ICreateTeamDTO): Promise<Team> {
+  async execute({ user_id }: IRequest): Promise<void> {
     const user = await this.usersRepository.findById(user_id);
 
-    if (user.team_id) {
-      throw new AppError('You are already in a team!');
+    if (!user.team_id) {
+      throw new AppError('You are not on a team!');
     }
 
-    const team = this.teamsRepository.create({
-      name,
-      description,
-    });
-
-    user.team_id = team.id;
-
-    await this.teamsRepository.saveTrx(team, user);
-
-    return team;
+    await this.teamsRepository.remove(user.team_id.id);
   }
 }

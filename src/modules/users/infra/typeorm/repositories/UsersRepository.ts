@@ -37,4 +37,32 @@ export class UsersRepository implements IUsersRepository {
 
     return user;
   }
+
+  async findById(id: string): Promise<User | undefined> {
+    const user = await this.repository.findOne({
+      where: { id },
+      relations: ['team_id'],
+    });
+
+    return user;
+  }
+
+  async getUsersCount(): Promise<number> {
+    const [, usersCount] = await this.repository.findAndCount();
+
+    return usersCount;
+  }
+
+  async rankUsersByPoints(): Promise<User[]> {
+    const users = await this.repository.find({
+      where: { isAdmin: false },
+      order: { points: 'DESC' },
+    });
+
+    return users;
+  }
+
+  async save(user: User): Promise<User> {
+    return this.repository.save(user);
+  }
 }
