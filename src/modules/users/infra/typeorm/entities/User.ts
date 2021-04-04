@@ -60,7 +60,7 @@ export class User {
 
   @ManyToOne(() => Team, team => team.users)
   @JoinColumn({ name: 'team_id' })
-  team_id: string;
+  team_id: Team;
 
   @ManyToMany(() => Skill)
   @JoinTable({
