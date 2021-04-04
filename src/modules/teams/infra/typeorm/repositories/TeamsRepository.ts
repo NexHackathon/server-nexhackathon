@@ -34,4 +34,8 @@ export class TeamsRepository implements ITeamsRepository {
       await entityManager.save(user);
     });
   }
+
+  async remove(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
 }

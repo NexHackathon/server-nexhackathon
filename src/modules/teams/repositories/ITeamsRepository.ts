@@ -7,4 +7,5 @@ export interface ITeamsRepository {
   create(data: ICreateTeamDTO): Team;
   list(): Promise<Team[]>;
   saveTrx(team: Team, user: User): Promise<void>;
+  remove(id: string): Promise<void>;
 }
