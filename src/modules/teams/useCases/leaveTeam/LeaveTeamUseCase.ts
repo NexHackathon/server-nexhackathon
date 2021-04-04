@@ -20,17 +20,19 @@ export class LeaveTeamUseCase {
   async execute({ user_id }: IRequest): Promise<void> {
     const user = await this.usersRepository.findById(user_id);
 
-    const team = await this.teamsRepository.findById(user.team_id.id);
-
-    if (!user.team_id.id) {
+    if (!user.team_id) {
       throw new AppError('You are not on a team!');
     }
+
+    const { id } = user.team_id;
 
     user.team_id = null;
 
     await this.usersRepository.save(user);
 
-    if (team.users.length < 1) {
+    const team = await this.teamsRepository.findById(id);
+
+    if (team.users.length === 0) {
       await this.teamsRepository.remove(team.id);
     }
   }

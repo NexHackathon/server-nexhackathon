@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { CreateTeamController } from '@modules/teams/useCases/createTeam/CreateTeamController';
+import { LeaveTeamController } from '@modules/teams/useCases/leaveTeam/LeaveTeamController';
 import { ListTeamsController } from '@modules/teams/useCases/listTeams/ListTeamsController';
 import { RemoveTeamController } from '@modules/teams/useCases/removeTeam/RemoveTeamController';
 
@@ -9,10 +10,13 @@ import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 export const teamsRoutes = Router();
 
 const createTeamController = new CreateTeamController();
+const leaveTeamController = new LeaveTeamController();
 const listTeamsController = new ListTeamsController();
 const removeTeamController = new RemoveTeamController();
 
 teamsRoutes.post('/', ensureAuthenticated, createTeamController.handle);
+
+teamsRoutes.patch('/leave', ensureAuthenticated, leaveTeamController.handle);
 
 teamsRoutes.get('/', ensureAuthenticated, listTeamsController.handle);
 
