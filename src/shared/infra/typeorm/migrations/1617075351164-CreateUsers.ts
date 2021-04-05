@@ -78,6 +78,11 @@ export class CreateUsers1617075351164 implements MigrationInterface {
             isNullable: true,
           },
           {
+            name: 'inserted_team_date',
+            type: 'timestamp',
+            isNullable: true,
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',

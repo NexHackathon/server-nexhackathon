@@ -72,6 +72,9 @@ export class User {
   })
   skills: Skill[];
 
+  @Column()
+  inserted_team_date: Date;
+
   @CreateDateColumn()
   created_at: Date;
 
