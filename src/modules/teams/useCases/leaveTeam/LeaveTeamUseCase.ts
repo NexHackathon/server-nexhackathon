@@ -28,6 +28,8 @@ export class LeaveTeamUseCase {
 
     user.team_id = null;
 
+    user.inserted_team_date = null;
+
     await this.usersRepository.save(user);
 
     const team = await this.teamsRepository.findById(id);

@@ -47,6 +47,24 @@ export class UsersRepository implements IUsersRepository {
     return user;
   }
 
+  async findOldestUser(team_id: string): Promise<User> {
+    const user = await this.repository.findOne({
+      where: { team_id },
+      order: { inserted_team_date: 'ASC' },
+    });
+
+    return user;
+  }
+
+  async findUsersOnTeam(team_id: string): Promise<User[]> {
+    const users = await this.repository.find({
+      where: { team_id },
+      order: { inserted_team_date: 'ASC' },
+    });
+
+    return users;
+  }
+
   async getUsersCount(): Promise<number> {
     const [, usersCount] = await this.repository.findAndCount();
 

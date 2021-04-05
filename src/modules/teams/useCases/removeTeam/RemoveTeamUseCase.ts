@@ -24,6 +24,25 @@ export class RemoveTeamUseCase {
       throw new AppError('You are not on a team!');
     }
 
+    const oldestUser = await this.usersRepository.findOldestUser(
+      user.team_id.id,
+    );
+
+    if (oldestUser.id !== user.id) {
+      throw new AppError('Only oldest user on the team can delete it!');
+    }
+
+    const usersOnTeam = await this.usersRepository.findUsersOnTeam(
+      user.team_id.id,
+    );
+
     await this.teamsRepository.remove(user.team_id.id);
+
+    usersOnTeam.map(async user => {
+      user.inserted_team_date = null;
+      user.team_id = null;
+
+      return this.usersRepository.save(user);
+    });
   }
 }
