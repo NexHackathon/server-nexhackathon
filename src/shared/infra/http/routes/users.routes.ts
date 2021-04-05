@@ -6,6 +6,7 @@ import { CreateUserController } from '@modules/users/useCases/createUser/CreateU
 import { CreateUserSkillController } from '@modules/users/useCases/createUserSkill/CreateUserSkillController';
 import { RankUsersController } from '@modules/users/useCases/rankUsers/RankUsersController';
 import { RegisteredUsersController } from '@modules/users/useCases/registeredUsers/RegisteredUsersController';
+import { ShowProfileController } from '@modules/users/useCases/showProfile/ShowProfileController';
 import { UpdateUserProfileImageController } from '@modules/users/useCases/updateUserProfileImage/UpdateUserProfileImageController';
 
 import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
@@ -16,6 +17,7 @@ const createUserController = new CreateUserController();
 const registeredUsersController = new RegisteredUsersController();
 const updateUserProfileImageController = new UpdateUserProfileImageController();
 const rankUsersController = new RankUsersController();
+const showProfile = new ShowProfileController();
 const createUserSkillController = new CreateUserSkillController();
 
 const upload = multer(uploadConfig.multer);
@@ -32,6 +34,8 @@ usersRoutes.patch(
 );
 
 usersRoutes.get('/ranking', ensureAuthenticated, rankUsersController.handle);
+
+usersRoutes.get('/profile', ensureAuthenticated, showProfile.handle);
 
 usersRoutes.post(
   '/skills',
