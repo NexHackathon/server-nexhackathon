@@ -29,6 +29,8 @@ export class CreateTeamUseCase {
 
     user.team_id = team.id;
 
+    user.inserted_team_date = new Date();
+
     await this.teamsRepository.saveTrx(team, user);
 
     return team;
