@@ -33,7 +33,7 @@ usersRoutes.patch(
   updateUserProfileImageController.handle,
 );
 
-usersRoutes.get('/ranking', ensureAuthenticated, rankUsersController.handle);
+usersRoutes.get('/rank', ensureAuthenticated, rankUsersController.handle);
 
 usersRoutes.get('/profile', ensureAuthenticated, showProfile.handle);
 
