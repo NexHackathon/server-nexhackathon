@@ -1,3 +1,4 @@
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -12,6 +13,6 @@ export class ShowProfileController {
       user_id: id,
     });
 
-    return response.json(user);
+    return response.json({ user: classToClass(user) });
   }
 }
