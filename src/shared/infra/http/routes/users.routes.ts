@@ -4,6 +4,7 @@ import multer from 'multer';
 import uploadConfig from '@config/upload';
 import { CreateUserController } from '@modules/users/useCases/createUser/CreateUserController';
 import { CreateUserSkillController } from '@modules/users/useCases/createUserSkill/CreateUserSkillController';
+import { FindUserController } from '@modules/users/useCases/findUser/FindUserController';
 import { RankUsersController } from '@modules/users/useCases/rankUsers/RankUsersController';
 import { RegisteredUsersController } from '@modules/users/useCases/registeredUsers/RegisteredUsersController';
 import { ShowProfileController } from '@modules/users/useCases/showProfile/ShowProfileController';
@@ -14,11 +15,12 @@ import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 export const usersRoutes = Router();
 
 const createUserController = new CreateUserController();
+const createUserSkillController = new CreateUserSkillController();
+const findUserController = new FindUserController();
 const registeredUsersController = new RegisteredUsersController();
 const updateUserProfileImageController = new UpdateUserProfileImageController();
 const rankUsersController = new RankUsersController();
 const showProfile = new ShowProfileController();
-const createUserSkillController = new CreateUserSkillController();
 
 const upload = multer(uploadConfig.multer);
 
@@ -36,6 +38,8 @@ usersRoutes.patch(
 usersRoutes.get('/rank', ensureAuthenticated, rankUsersController.handle);
 
 usersRoutes.get('/profile', ensureAuthenticated, showProfile.handle);
+
+usersRoutes.get('/:id', ensureAuthenticated, findUserController.handle);
 
 usersRoutes.post(
   '/skills',
