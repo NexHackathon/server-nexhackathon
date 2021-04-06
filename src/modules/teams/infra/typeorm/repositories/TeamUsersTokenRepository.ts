@@ -1,11 +1,11 @@
 import { getRepository, Repository } from 'typeorm';
 
 import { ICreateTeamUsersTokenDTO } from '@modules/teams/dtos/ICreateTeamUsersTokenDTO';
-import { ITeamUsersToken } from '@modules/teams/repositories/ITeamUsersToken';
+import { ITeamUsersTokenRepository } from '@modules/teams/repositories/ITeamUsersTokenRepository';
 
 import { TeamUserToken } from '../entities/TeamUserToken';
 
-export class TeamUsersTokenRepository implements ITeamUsersToken {
+export class TeamUsersTokenRepository implements ITeamUsersTokenRepository {
   private repository: Repository<TeamUserToken>;
 
   constructor() {
