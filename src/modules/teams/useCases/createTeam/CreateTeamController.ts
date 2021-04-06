@@ -6,7 +6,7 @@ import { CreateTeamUseCase } from './CreateTeamUseCase';
 export class CreateTeamController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { id } = request.user;
-    const { name, description } = request.body;
+    const { name, description, users_email } = request.body;
 
     const createTeamUseCase = container.resolve(CreateTeamUseCase);
 
@@ -14,6 +14,7 @@ export class CreateTeamController {
       name,
       description,
       user_id: id,
+      users_email,
     });
 
     return response.status(201).send();
