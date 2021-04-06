@@ -76,6 +76,8 @@ export class CreateTeamUseCase {
 
     user.inserted_team_date = new Date();
 
+    await this.teamsRepository.saveTrx(team, user);
+
     const inviteTeamTemplate = path.resolve(
       __dirname,
       '..',
@@ -104,8 +106,6 @@ export class CreateTeamUseCase {
         });
       }),
     );
-
-    await this.teamsRepository.saveTrx(team, user);
 
     return team;
   }
