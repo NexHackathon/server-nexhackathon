@@ -33,7 +33,10 @@ export class UsersRepository implements IUsersRepository {
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.repository.findOne({ where: { email } });
+    const user = await this.repository.findOne({
+      where: { email },
+      relations: ['team_id'],
+    });
 
     return user;
   }
