@@ -60,6 +60,8 @@ export class SendInvitesUseCase {
           throw new AppError('You cannot invite yourself!');
         }
 
+        console.log(checkUser.team_id);
+
         if (checkUser.team_id) {
           throw new AppError(
             `User with email: '${user_email}' is already on a team.`,
