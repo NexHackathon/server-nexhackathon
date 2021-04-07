@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 
 import { Team } from '@modules/teams/infra/typeorm/entities/Team';
 import { ITeamsRepository } from '@modules/teams/repositories/ITeamsRepository';
+import { ITeamUsersTokenRepository } from '@modules/teams/repositories/ITeamUsersTokenRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { IMailProvider } from '@shared/container/providers/MailProvider/models/IMailProvider';
 import AppError from '@shared/errors/AppError';
@@ -25,6 +26,9 @@ export class CreateTeamUseCase {
 
     @inject('MailProvider')
     private mailProvider: IMailProvider,
+
+    @inject('TeamUsersTokenRepository')
+    private teamUsersTokenRepository: ITeamUsersTokenRepository,
   ) {}
 
   async execute({
@@ -88,6 +92,11 @@ export class CreateTeamUseCase {
 
     await Promise.all(
       users.map(async user => {
+        const { token } = await this.teamUsersTokenRepository.generate({
+          team_id: team.id,
+          user_id: user.id,
+        });
+
         await this.mailProvider.sendMail({
           to: {
             name: user.name,
@@ -100,7 +109,7 @@ export class CreateTeamUseCase {
               name: user.name,
               team_name: team.name,
               team_id: team.id,
-              token: 'token-test',
+              token,
             },
           },
         });
