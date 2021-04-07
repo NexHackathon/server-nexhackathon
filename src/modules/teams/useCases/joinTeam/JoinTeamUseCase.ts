@@ -1,13 +1,13 @@
 import { isAfter, addHours } from 'date-fns';
 import { inject, injectable } from 'tsyringe';
 
+import { ITeamsRepository } from '@modules/teams/repositories/ITeamsRepository';
 import { ITeamUsersTokenRepository } from '@modules/teams/repositories/ITeamUsersTokenRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 
 interface IRequest {
   user_id: string;
-  team_id: string;
   token: string;
 }
 
@@ -16,11 +16,13 @@ export class JoinTeamUseCase {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+    @inject('TeamsRepository')
+    private teamsRepository: ITeamsRepository,
     @inject('TeamUsersTokenRepository')
     private teamUsersTokenRepository: ITeamUsersTokenRepository,
   ) {}
 
-  async execute({ user_id, team_id, token }: IRequest): Promise<void> {
+  async execute({ user_id, token }: IRequest): Promise<void> {
     const teamUserToken = await this.teamUsersTokenRepository.findByToken(
       token,
     );
@@ -47,7 +49,9 @@ export class JoinTeamUseCase {
       throw new AppError('Token expired');
     }
 
-    user.team_id = teamUserToken.team_id;
+    const team = await this.teamsRepository.findById(teamUserToken.team_id);
+
+    user.team_id = team;
 
     user.inserted_team_date = new Date();
 

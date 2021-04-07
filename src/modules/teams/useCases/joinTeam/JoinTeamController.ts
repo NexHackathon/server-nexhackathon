@@ -14,7 +14,6 @@ export class JoinTeamController {
     await joinTeamUseCase.execute({
       user_id: id,
       token,
-      team_id,
     });
 
     return response.status(204).send();

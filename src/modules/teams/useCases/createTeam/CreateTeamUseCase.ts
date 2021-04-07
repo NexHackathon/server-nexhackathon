@@ -37,9 +37,9 @@ export class CreateTeamUseCase {
     user_id,
     users_email,
   }: IRequest): Promise<Team> {
-    const user = await this.usersRepository.findById(user_id);
+    const authenticatedUser = await this.usersRepository.findById(user_id);
 
-    if (user.team_id) {
+    if (authenticatedUser.team_id) {
       throw new AppError('You are already in a team!');
     }
 
@@ -57,7 +57,7 @@ export class CreateTeamUseCase {
           );
         }
 
-        if (checkUser.email === user.email) {
+        if (checkUser.email === authenticatedUser.email) {
           throw new AppError('You cannot invite yourself!');
         }
 
@@ -76,11 +76,11 @@ export class CreateTeamUseCase {
       description,
     });
 
-    user.team_id = team.id;
+    authenticatedUser.team_id = team;
 
-    user.inserted_team_date = new Date();
+    authenticatedUser.inserted_team_date = new Date();
 
-    await this.teamsRepository.saveTrx(team, user);
+    await this.teamsRepository.saveTrx(team, authenticatedUser);
 
     const inviteTeamTemplate = path.resolve(
       __dirname,
@@ -107,8 +107,8 @@ export class CreateTeamUseCase {
             file: inviteTeamTemplate,
             variables: {
               name: user.name,
+              user_name: authenticatedUser.name,
               team_name: team.name,
-              team_id: team.id,
               token,
             },
           },
