@@ -34,6 +34,14 @@ export class SendInvitesUseCase {
       throw new AppError('You are not on team!');
     }
 
+    const oldestUser = await this.usersRepository.findOldestUser(
+      authenticatedUser.team_id.id,
+    );
+
+    if (oldestUser.id !== authenticatedUser.id) {
+      throw new AppError('Only oldest user on the team can send invites!');
+    }
+
     const team = await this.teamsRepository.findById(
       authenticatedUser.team_id.id,
     );
