@@ -2,6 +2,7 @@ import { Router } from 'express';
 import multer from 'multer';
 
 import uploadConfig from '@config/upload';
+import { CompleteProfileController } from '@modules/users/useCases/completeProfile/CompleteProfileController';
 import { CreateUserController } from '@modules/users/useCases/createUser/CreateUserController';
 import { CreateUserSkillController } from '@modules/users/useCases/createUserSkill/CreateUserSkillController';
 import { FindUserController } from '@modules/users/useCases/findUser/FindUserController';
@@ -14,6 +15,7 @@ import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
 
 export const usersRoutes = Router();
 
+const completeProfileController = new CompleteProfileController();
 const createUserController = new CreateUserController();
 const createUserSkillController = new CreateUserSkillController();
 const findUserController = new FindUserController();
@@ -25,6 +27,12 @@ const showProfile = new ShowProfileController();
 const upload = multer(uploadConfig.multer);
 
 usersRoutes.post('/', createUserController.handle);
+
+usersRoutes.put(
+  '/complete-profile',
+  ensureAuthenticated,
+  completeProfileController.handle,
+);
 
 usersRoutes.get('/connections', registeredUsersController.handle);
 
