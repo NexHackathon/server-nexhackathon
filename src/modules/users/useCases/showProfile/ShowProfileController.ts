@@ -13,6 +13,6 @@ export class ShowProfileController {
       user_id: id,
     });
 
-    return response.json({ user: classToClass(user) });
+    return response.json(classToClass(user));
   }
 }
