@@ -49,8 +49,6 @@ export class CompleteProfileUseCase {
       user.linkedin = linkedin;
     }
 
-    await this.usersRepository.save(user);
-
-    return user;
+    return this.usersRepository.save(user);
   }
 }
