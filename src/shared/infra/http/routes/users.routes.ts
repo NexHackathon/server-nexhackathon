@@ -9,6 +9,7 @@ import { FindUserController } from '@modules/users/useCases/findUser/FindUserCon
 import { RankUsersController } from '@modules/users/useCases/rankUsers/RankUsersController';
 import { RegisteredUsersController } from '@modules/users/useCases/registeredUsers/RegisteredUsersController';
 import { ShowProfileController } from '@modules/users/useCases/showProfile/ShowProfileController';
+import { UpdateProfileController } from '@modules/users/useCases/updateProfile/UpdateProfileController';
 import { UpdateUserProfileImageController } from '@modules/users/useCases/updateUserProfileImage/UpdateUserProfileImageController';
 
 import { ensureAuthenticated } from '../middlewares/ensureAuthenticated';
@@ -22,7 +23,8 @@ const findUserController = new FindUserController();
 const registeredUsersController = new RegisteredUsersController();
 const updateUserProfileImageController = new UpdateUserProfileImageController();
 const rankUsersController = new RankUsersController();
-const showProfile = new ShowProfileController();
+const showProfileController = new ShowProfileController();
+const updateProfileController = new UpdateProfileController();
 
 const upload = multer(uploadConfig.multer);
 
@@ -45,7 +47,7 @@ usersRoutes.patch(
 
 usersRoutes.get('/rank', ensureAuthenticated, rankUsersController.handle);
 
-usersRoutes.get('/profile', ensureAuthenticated, showProfile.handle);
+usersRoutes.get('/profile', ensureAuthenticated, showProfileController.handle);
 
 usersRoutes.get('/:id', ensureAuthenticated, findUserController.handle);
 
@@ -53,4 +55,10 @@ usersRoutes.post(
   '/skills',
   ensureAuthenticated,
   createUserSkillController.handle,
+);
+
+usersRoutes.put(
+  '/update-profile',
+  ensureAuthenticated,
+  updateProfileController.handle,
 );
