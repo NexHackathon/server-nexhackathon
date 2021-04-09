@@ -103,9 +103,8 @@ export class SendInvitesUseCase {
             file: inviteTeamTemplate,
             variables: {
               name: user.name,
-              user_name: authenticatedUser.name,
+              link: `${process.env.APP_WEB_URL}/join-team?token=${token}`,
               team_name: team.name,
-              token,
             },
           },
         });
