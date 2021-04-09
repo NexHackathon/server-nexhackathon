@@ -8,6 +8,7 @@ export interface IUsersRepository {
   findOldestUser(team_id: string): Promise<User>;
   findUsersOnTeam(team_id: string): Promise<User[]>;
   getUsersCount(): Promise<number>;
+  givePoints(user_id: string, points: number): Promise<User>;
   rankUsersByPoints(): Promise<User[]>;
   save(user: User): Promise<User>;
 }
