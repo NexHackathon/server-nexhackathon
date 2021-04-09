@@ -59,7 +59,7 @@ export class RankUsersUseCase {
     const user = {
       name,
       position: position + 1,
-      points,
+      points: Number(points),
       profile_image,
     };
 

@@ -4,4 +4,5 @@ export interface ICreateUserDTO {
   date_of_birth: string;
   email: string;
   password: string;
+  invite_token?: string;
 }
