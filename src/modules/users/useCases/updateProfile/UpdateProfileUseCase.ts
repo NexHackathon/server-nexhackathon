@@ -50,6 +50,10 @@ export class UpdateProfileUseCase {
     user.date_of_birth = date_of_birth;
 
     if (headline) {
+      if (user.headline === null) {
+        user.points = Number(user.points) + 100;
+      }
+
       user.headline = headline;
     }
 
