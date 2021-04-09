@@ -52,6 +52,9 @@ export class User {
   points: number;
 
   @Column()
+  invite_token: string;
+
+  @Column()
   linkedin: string;
 
   @Column()
@@ -91,6 +94,7 @@ export class User {
   constructor() {
     if (!this.id) {
       this.id = uuidV4();
+      this.invite_token = uuidV4();
     }
   }
 }
