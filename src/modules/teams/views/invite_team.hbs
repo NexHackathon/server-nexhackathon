@@ -1,17 +1,329 @@
-<style>
-  .message-content {
-    font-family: Arial, Helvetica, sans-serif;
-    max-width: 800px;
-    font-size: 14px;
-    line-height: 21px;
-  }
-</style>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+  xmlns:o="urn:schemas-microsoft-com:office:office">
 
-<div class="message-content">
-  <p>Olá, {{name}}</p>
-  <p>Você foi convidado por {{user_name}} para ingressar ao time {{team_name}}.</p>
-  <p>Para entrar no time, basta utilizar as credenciais abaixo.</p>
-  <p>token: {{token}}</p>
-  <p>Obrigado! <br /></p>
-    <h3>Equipe | <strong>HackaNex</strong></h3>
-</div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="x-apple-disable-message-reformatting">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <title>Nex Hackathon</title>
+
+  <!-- Resetando CSS -->
+  <style>
+    * {
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    div[style*="margin: 16px 0"] {
+      margin: 0 !important;
+    }
+
+    table,
+    td {
+      mso-table-lspace: 0pt !important;
+      mso-table-rspace: 0pt !important;
+    }
+
+    table {
+      border-spacing: 0 !important;
+      border-collapse: collapse !important;
+      table-layout: fixed !important;
+      margin: 0 auto !important;
+    }
+
+    img {
+      -ms-interpolation-mode: bicubic;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    *[x-apple-data-detectors],
+    .unstyle-auto-detected-links *,
+    .aBn {
+      border-bottom: 0 !important;
+      cursor: default !important;
+      color: inherit !important;
+      text-decoration: none !important;
+      font-size: inherit !important;
+      font-family: inherit !important;
+      font-weight: inherit !important;
+      line-height: inherit !important;
+    }
+
+    .a6S {
+      display: none !important;
+      opacity: 0.01 !important;
+    }
+
+    .im {
+      color: inherit !important;
+    }
+
+    img.g-img+div {
+      display: none !important;
+    }
+
+    .email-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
+      u~div .email-container {
+        min-width: 320px !important;
+      }
+    }
+
+    @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
+      u~div .email-container {
+        min-width: 375px !important;
+      }
+    }
+
+    @media only screen and (min-device-width: 414px) {
+      u~div .email-container {
+        min-width: 414px !important;
+      }
+    }
+  </style>
+
+  <!-- Estilos do corpo -->
+  <style>
+    .bg_gradient {
+      background: linear-gradient(269.95deg, #15AB89 5.03%, #2FDF84 94.96%);
+    }
+
+    .bg_dark {
+      background: #020E17;
+    }
+
+    .bg_footer {
+      background: #020c14;
+    }
+
+    .contrast {
+      font-weight: 200;
+      color: #07F9A2;
+    }
+
+    .email-section {
+      padding: 2.5em;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #00000066;
+      margin: 0;
+      padding: 0 !important;
+      mso-line-height-rule: exactly;
+      background-color: #222222;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Inter', sans-serif;
+      color: #ffffff;
+      font-weight: 400;
+      font-size: 1.6rem;
+      letter-spacing: .03rem;
+    }
+
+    p {
+      font-family: 'Inter', sans-serif;
+      color: #b6b6b6;
+      font-weight: 400;
+    }
+
+    .email_header {
+      padding: 2em 2.5em 1.5em 2.5em;
+    }
+
+    .header_logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .title_container {
+      padding: 0 2.5em;
+      text-align: center;
+    }
+
+    .email_title {
+      font-weight: 400;
+      color: #ffffff;
+      font-size: 1.2rem;
+      letter-spacing: .03rem;
+
+      margin-top: 20px;
+    }
+
+    .main_section p {
+      font-family: 'Inter', sans-serif;
+      color: #b6b6b6;
+      font-weight: 100;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    .heading-section-white h2 {
+      font-family: 'Inter';
+      line-height: 1;
+      padding-bottom: 0;
+    }
+
+    .heading-section-white h2 {
+      color: #ffffff;
+    }
+
+    .button_container {
+      margin: 10vh 0;
+    }
+
+    .accept_button {
+      padding: 15px 25px;
+      border-radius: 5px;
+
+      font-weight: 400;
+      font-size: 1rem;
+      letter-spacing: .03rem;
+      text-align: center;
+
+      color: #ffffff;
+    }
+
+    .footer {
+      border-top: 1px solid rgba(0, 0, 0, .05);
+      color: #020c14;
+    }
+
+    .links a img {
+      height: 35px;
+    }
+  </style>
+</head>
+
+<body width="100%">
+  <div class="email-container">
+    <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+      <tr>
+        <td valign="top" class="bg_dark email_header">
+          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td class="header_logo">
+                <img src="https://vghs.s3.us-east-2.amazonaws.com/nex_logo.png" style="width: 7rem;">
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top" class="bg_gradient">
+          <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tr>
+              <td>
+                <div class="text title_container">
+                  <h3 class="email_title">Convite recebido</h3>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td valign="middle" class="bg_dark">
+          <table>
+            <tr>
+              <td>
+                <div style="padding: 2.5em 2.5em 0 2.5em; text-align: center;">
+                  <h3>Olá, {{name}}!</h3>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td class="bg_dark">
+          <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+            <tr>
+              <td class="email-section" style="padding: 0; width: 100%;">
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                  <tr>
+                    <td valign="middle" width="100%">
+                      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                          <td class="text-services" style="text-align: center; padding: 20px 30px;">
+                            <div class="main_section">
+                              <p>Você recebeu um convite para fazer parte do time <span class="contrast">{{team_name}}</span>
+                                no hackathon e o Nex ficou encarregado de te enviar esse convite.</p>
+
+                              <p>Para ingressar no time basta clicar no botão abaixo <span class="contrast">aceitar
+                                  convite</span> e mostrar tudo o que pode fazer para sua nova equipe!</p>
+
+                              <div class="button_container">
+                                <a href="" class="accept_button bg_gradient">Aceitar Convite</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <table class="bg_footer" align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%"
+      style="margin: auto;">
+      <tr>
+        <td style="padding: 1em 4em 1em 4em;">
+          <p style="font-weight: 100; font-size: 1rem; text-align: start;">Qualquer dúvida, estaremos por aqui</p>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 1em 4em 1em 4em;">
+          <h4 style="width: 100px; font-weight: 100; font-size: 1rem; text-align: start;">Abraços, Equipe Nex</h4>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 1em 4em 1em 4em;">
+          <p style="font-weight: 100; font-size: .8rem; text-align: start;">Nos acompanhe pelas redes sociais:</p>
+
+          <div class="links" style="margin: 2vh 0;">
+            <a href="https://www.youtube.com/channel/UCr5AwkfebU9WdrKzQ95zZqA">
+              <img src="https://vghs.s3.us-east-2.amazonaws.com/youtube.png" alt="youtube">
+            </a>
+            <a href="https://www.instagram.com/nexhackathon/?hl=en" style="margin-left: 15px;">
+              <img src="https://vghs.s3.us-east-2.amazonaws.com/instagram.png" alt="instagram">
+            </a>
+            <a href="https://www.linkedin.com/company/nexhackathon" style="margin-left: 15px;">
+              <img src="https://vghs.s3.us-east-2.amazonaws.com/linkedin.png" alt="linkedin">
+            </a>
+          </div>
+        </td>
+      </tr>
+
+    </table>
+  </div>
+  </center>
+</body>
+
+</html>
