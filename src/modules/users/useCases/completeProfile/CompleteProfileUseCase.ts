@@ -30,10 +30,18 @@ export class CompleteProfileUseCase {
     const user = await this.usersRepository.findById(user_id);
 
     if (headline) {
+      if (user.headline === null) {
+        user.points = Number(user.points) + 100;
+      }
+
       user.headline = headline;
     }
 
     if (description) {
+      if (user.description === null) {
+        user.points = Number(user.points) + 100;
+      }
+
       user.description = description;
     }
 

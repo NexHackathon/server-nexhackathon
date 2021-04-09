@@ -17,6 +17,8 @@ interface IResponse {
   email: string;
   profile_image: string;
   profile_image_url: () => string;
+  points: number;
+  invite_token: string;
   school: string;
   headline: string;
   description: string;
@@ -42,6 +44,8 @@ export class ShowProfileUseCase {
       email: user.email,
       profile_image: user.profile_image,
       profile_image_url: user.getAvatar_url,
+      invite_token: user.invite_token,
+      points: Number(user.points),
       school: user.school,
       headline: user.headline,
       description: user.description,
