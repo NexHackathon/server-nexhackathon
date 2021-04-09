@@ -74,6 +74,14 @@ export class UsersRepository implements IUsersRepository {
     return usersCount;
   }
 
+  async givePoints(user_id: string, points: number): Promise<User> {
+    const user = await this.repository.findOne({ where: { id: user_id } });
+
+    user.points = points;
+
+    return user;
+  }
+
   async rankUsersByPoints(): Promise<User[]> {
     const users = await this.repository.find({
       where: { isAdmin: false },
