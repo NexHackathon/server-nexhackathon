@@ -50,6 +50,14 @@ export class UsersRepository implements IUsersRepository {
     return user;
   }
 
+  async findByToken(invite_token: string): Promise<User | undefined> {
+    const user = await this.repository.findOne({
+      where: { invite_token },
+    });
+
+    return user;
+  }
+
   async findOldestUser(team_id: string): Promise<User> {
     const user = await this.repository.findOne({
       where: { team_id },
@@ -77,7 +85,9 @@ export class UsersRepository implements IUsersRepository {
   async givePoints(user_id: string, points: number): Promise<User> {
     const user = await this.repository.findOne({ where: { id: user_id } });
 
-    user.points = points;
+    user.points = Number(user.points) + Number(points);
+
+    await this.repository.save(user);
 
     return user;
   }

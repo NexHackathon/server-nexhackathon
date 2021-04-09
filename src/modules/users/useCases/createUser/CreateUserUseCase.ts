@@ -21,11 +21,22 @@ export class CreateUserUseCase {
     date_of_birth,
     email,
     password,
+    invite_token,
   }: ICreateUserDTO): Promise<User> {
     const userExists = await this.usersRepository.findByEmail(email);
 
     if (userExists) {
       throw new AppError('E-mail address alrealdy in use.');
+    }
+
+    if (invite_token) {
+      const userHasInvited = await this.usersRepository.findByToken(
+        invite_token,
+      );
+
+      if (userHasInvited) {
+        await this.usersRepository.givePoints(userHasInvited.id, 300);
+      }
     }
 
     const hashedPassword = await this.hashProvider.generateHash(password);
