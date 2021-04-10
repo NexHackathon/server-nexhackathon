@@ -5,7 +5,7 @@ import path from 'path';
 const tmpFolder = path.resolve(__dirname, '..', '..', 'tmp');
 
 interface IUploadConfig {
-  driver: 'disk';
+  driver: 's3' | 'disk';
   tmpFolder: string;
   uploadFolder: string;
 
@@ -16,11 +16,14 @@ interface IUploadConfig {
   config: {
     // eslint-disable-next-line @typescript-eslint/ban-types
     disk: {};
+    aws: {
+      bucket: string;
+    };
   };
 }
 
 export default {
-  driver: 'disk',
+  driver: process.env.STORAGE_DRIVER || 'disk',
   tmpFolder,
   uploadFolder: path.resolve(tmpFolder, 'uploads'),
 
@@ -39,5 +42,8 @@ export default {
 
   config: {
     disk: {},
+    aws: {
+      bucket: 'app-hackanex',
+    },
   },
 } as IUploadConfig;

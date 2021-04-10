@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 
+import { User } from '@modules/users/infra/typeorm/entities/User';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import IStorageProvider from '@shared/container/providers/StorageProvider/models/IStorageProvider';
 
@@ -17,7 +18,7 @@ export class UpdateUserProfileImageUseCase {
     private storageProvider: IStorageProvider,
   ) {}
 
-  async execute({ user_id, avatarFileName }: IRequest): Promise<void> {
+  async execute({ user_id, avatarFileName }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (user.profile_image === null) {
@@ -33,5 +34,7 @@ export class UpdateUserProfileImageUseCase {
     user.profile_image = fileName;
 
     await this.usersRepository.save(user);
+
+    return user;
   }
 }
