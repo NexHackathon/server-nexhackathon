@@ -1,3 +1,4 @@
+import { Exclude, Expose } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -32,6 +33,7 @@ export class User {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column()
@@ -48,6 +50,9 @@ export class User {
 
   @Column()
   points: number;
+
+  @Column()
+  invite_token: string;
 
   @Column()
   linkedin: string;
@@ -70,15 +75,26 @@ export class User {
   })
   skills: Skill[];
 
+  @Column()
+  inserted_team_date: Date;
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 
+  @Expose({ name: 'profile_image_url' })
+  getAvatar_url(): string | null {
+    return this.profile_image
+      ? `${process.env.APP_API_URL}/files/${this.profile_image}`
+      : null;
+  }
+
   constructor() {
     if (!this.id) {
       this.id = uuidV4();
+      this.invite_token = uuidV4();
     }
   }
 }

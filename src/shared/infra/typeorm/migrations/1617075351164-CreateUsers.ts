@@ -58,6 +58,10 @@ export class CreateUsers1617075351164 implements MigrationInterface {
             default: 0,
           },
           {
+            name: 'invite_token',
+            type: 'uuid',
+          },
+          {
             name: 'linkedin',
             type: 'varchar',
             isNullable: true,
@@ -75,6 +79,11 @@ export class CreateUsers1617075351164 implements MigrationInterface {
           {
             name: 'team_id',
             type: 'uuid',
+            isNullable: true,
+          },
+          {
+            name: 'inserted_team_date',
+            type: 'timestamp',
             isNullable: true,
           },
           {

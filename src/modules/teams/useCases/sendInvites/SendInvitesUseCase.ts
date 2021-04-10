@@ -1,7 +1,6 @@
 import path from 'path';
 import { inject, injectable } from 'tsyringe';
 
-import { Team } from '@modules/teams/infra/typeorm/entities/Team';
 import { ITeamsRepository } from '@modules/teams/repositories/ITeamsRepository';
 import { ITeamUsersTokenRepository } from '@modules/teams/repositories/ITeamUsersTokenRepository';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
@@ -9,14 +8,12 @@ import { IMailProvider } from '@shared/container/providers/MailProvider/models/I
 import AppError from '@shared/errors/AppError';
 
 interface IRequest {
-  name: string;
-  description: string;
   user_id: string;
   users_email: string[];
 }
 
 @injectable()
-export class CreateTeamUseCase {
+export class SendInvitesUseCase {
   constructor(
     @inject('TeamsRepository')
     private teamsRepository: ITeamsRepository,
@@ -30,21 +27,31 @@ export class CreateTeamUseCase {
     @inject('TeamUsersTokenRepository')
     private teamUsersTokenRepository: ITeamUsersTokenRepository,
   ) {}
-
-  async execute({
-    name,
-    description,
-    user_id,
-    users_email,
-  }: IRequest): Promise<Team> {
+  async execute({ user_id, users_email }: IRequest): Promise<void> {
     const authenticatedUser = await this.usersRepository.findById(user_id);
 
-    if (authenticatedUser.team_id) {
-      throw new AppError('You are already in a team!');
+    if (!authenticatedUser.team_id) {
+      throw new AppError('You are not on team!');
     }
 
-    if (users_email.length > 4) {
-      throw new AppError('You can only invite four users.');
+    const oldestUser = await this.usersRepository.findOldestUser(
+      authenticatedUser.team_id.id,
+    );
+
+    if (oldestUser.id !== authenticatedUser.id) {
+      throw new AppError('Only oldest user on the team can send invites!');
+    }
+
+    const team = await this.teamsRepository.findById(
+      authenticatedUser.team_id.id,
+    );
+
+    if (team.users.length === 5) {
+      throw new AppError('This team is full');
+    }
+
+    if (team.users.length + users_email.length > 5) {
+      throw new AppError(`You can only send ${5 - team.users.length} invites`);
     }
 
     const users = await Promise.all(
@@ -70,17 +77,6 @@ export class CreateTeamUseCase {
         return checkUser;
       }),
     );
-
-    const team = this.teamsRepository.create({
-      name,
-      description,
-    });
-
-    authenticatedUser.team_id = team;
-
-    authenticatedUser.inserted_team_date = new Date();
-
-    await this.teamsRepository.saveTrx(team, authenticatedUser);
 
     const inviteTeamTemplate = path.resolve(
       __dirname,
@@ -114,7 +110,5 @@ export class CreateTeamUseCase {
         });
       }),
     );
-
-    return team;
   }
 }

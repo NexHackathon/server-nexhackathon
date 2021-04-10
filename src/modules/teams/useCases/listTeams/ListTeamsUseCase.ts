@@ -11,6 +11,7 @@ interface IResponse {
     id: string;
     name: string;
     profile_image: string;
+    profile_image_url: () => string;
   }[];
 }
 
@@ -30,6 +31,7 @@ export class ListTeamsUseCase {
           id: users.id,
           name: users.name,
           profile_image: users.profile_image,
+          profile_image_url: users.getAvatar_url,
         };
       });
 

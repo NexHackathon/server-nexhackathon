@@ -6,6 +6,8 @@ import createConnection from '@shared/infra/typeorm';
 
 import '@shared/container';
 
+import uploadConfig from '@config/upload';
+
 import { router } from './routes';
 
 createConnection();
@@ -14,6 +16,8 @@ const app = express();
 const port = process.env.PORT || 3333;
 
 app.use(express.json());
+
+app.use('/files', express.static(uploadConfig.uploadFolder));
 
 app.use(router);
 

@@ -20,6 +20,10 @@ export class UpdateUserProfileImageUseCase {
   async execute({ user_id, avatarFileName }: IRequest): Promise<void> {
     const user = await this.usersRepository.findById(user_id);
 
+    if (user.profile_image === null) {
+      user.points = Number(user.points) + Number(200);
+    }
+
     if (user.profile_image) {
       await this.storageProvider.deleteFile(user.profile_image);
     }
