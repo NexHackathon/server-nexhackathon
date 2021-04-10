@@ -12,6 +12,7 @@ import {
 } from 'typeorm';
 import { v4 as uuidV4 } from 'uuid';
 
+import uploadConfig from '@config/upload';
 import { Skill } from '@modules/skills/infra/typeorm/entities/Skill';
 import { Team } from '@modules/teams/infra/typeorm/entities/Team';
 
@@ -86,9 +87,18 @@ export class User {
 
   @Expose({ name: 'profile_image_url' })
   getAvatar_url(): string | null {
-    return this.profile_image
-      ? `${process.env.APP_API_URL}/files/${this.profile_image}`
-      : null;
+    if (!this.profile_image) {
+      return null;
+    }
+
+    switch (uploadConfig.driver) {
+      case 'disk':
+        return `${process.env.APP_API_URL}/files/${this.profile_image}`;
+      case 's3':
+        return `https://${uploadConfig.config.aws.bucket}.s3.amazonaws.com/${this.profile_image}`;
+      default:
+        return null;
+    }
   }
 
   constructor() {
