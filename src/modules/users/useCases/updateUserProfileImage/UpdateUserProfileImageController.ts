@@ -1,3 +1,4 @@
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -9,11 +10,11 @@ export class UpdateUserProfileImageController {
       UpdateUserProfileImageUseCase,
     );
 
-    await updateUserAvatarUseCase.execute({
+    const user = await updateUserAvatarUseCase.execute({
       user_id: request.user.id,
       avatarFileName: request.file.filename,
     });
 
-    return response.status(201).send();
+    return response.json(classToClass(user));
   }
 }
