@@ -43,7 +43,7 @@ export default {
   config: {
     disk: {},
     aws: {
-      bucket: 'app-hackanex',
+      bucket: 'hackanex-upload',
     },
   },
 } as IUploadConfig;
