@@ -1,0 +1,116 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Hackanex API Documentation",
+    "description": "This is an documentation with the routes of the API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "gnferreira2000@gmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Email already in use"
+          }
+        }
+      }
+    },
+    "/users/connections": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get connections count of users",
+        "description": "Get connections count of users",
+        "responses": {
+          "200": {
+            "description": "Ok"
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "tags": [
+          "Sessions"
+        ],
+        "summary": "Authenticate a user",
+        "description": "Authenticate a user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/definitions/Session"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Email or password incorrect!"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "school": {
+          "type": "string"
+        },
+        "date_of_birth": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "invite_token": {
+          "type": "string",
+          "format": "uuid"
+        }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
