@@ -1,11 +1,14 @@
 import cors from 'cors';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
+import swaggerUi from 'swagger-ui-express';
 import 'dotenv/config';
 
 import uploadConfig from '@config/upload';
 import AppError from '@shared/errors/AppError';
 import createConnection from '@shared/infra/typeorm';
+
+import swaggerFile from '../../../swagger.json';
 
 import '@shared/container';
 
@@ -18,7 +21,10 @@ createConnection();
 const app = express();
 
 app.use(cors());
+
 app.use(express.json());
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.use('/files', express.static(uploadConfig.uploadFolder));
 
